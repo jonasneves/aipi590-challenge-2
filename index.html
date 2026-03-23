@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio Judge · Mockups</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FDFAF7;
+    --surface: #FFFFFF;
+    --surface-2: #F5F0EA;
+    --border: #EDE8E2;
+    --border-2: #D8D0C8;
+    --text: #1C1410;
+    --text-2: #7A6E64;
+    --text-3: #B8ADA4;
+    --accent: #D4472A;
+    --accent-bg: rgba(212,71,42,0.06);
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  .shell {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 72px 40px 96px;
+  }
+
+  .header {
+    margin-bottom: 56px;
+  }
+
+  .header-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  h1 em {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-2);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-2);
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+  /* Cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 680px) {
+    .cards { grid-template-columns: 1fr; }
+    .shell { padding: 40px 20px 72px; }
+    h1 { font-size: 1.9rem; }
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--border-2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    transform: translateY(-3px);
+  }
+
+  .card-preview {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Mockup A preview — Hinge-style swipe cards */
+  .preview-a {
+    background: #1C100A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .preview-a .p-card-back {
+    position: absolute;
+    width: 130px;
+    background: #251510;
+    border: 1px solid #3D1F10;
+    border-radius: 10px;
+    padding: 14px;
+    transform: rotate(4deg) translate(18px, 8px);
+  }
+  .preview-a .p-card {
+    position: relative;
+    width: 130px;
+    background: #1E1208;
+    border: 1px solid #4A2812;
+    border-radius: 10px;
+    padding: 14px;
+    transform: rotate(-1.5deg);
+  }
+  .preview-a .p-tag {
+    font-size: 0.42rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #FF5733;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .preview-a .p-text {
+    font-size: 0.52rem;
+    line-height: 1.5;
+    color: #C4A882;
+  }
+  .preview-a .p-btns {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .preview-a .p-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+  }
+  .preview-a .p-skip { background: rgba(255,80,60,0.15); border: 1px solid rgba(255,80,60,0.3); }
+  .preview-a .p-pick { background: rgba(60,200,100,0.15); border: 1px solid rgba(60,200,100,0.3); }
+
+  /* Mockup B preview — warm split compare */
+  .preview-b {
+    background: #FBF7F4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-b .p-col {
+    flex: 1;
+    background: white;
+    border: 1px solid #EDE8E2;
+    border-radius: 10px;
+    padding: 10px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+  }
+  .preview-b .p-col.won {
+    border-color: #2D9E6B;
+    box-shadow: 0 0 0 3px rgba(45,158,107,0.1);
+  }
+  .preview-b .p-col.lost { opacity: 0.35; }
+  .preview-b .p-lbl {
+    font-size: 0.42rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #B8ADA4;
+    margin-bottom: 6px;
+  }
+  .preview-b .p-avi {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: #F5F0EA;
+    border: 1px solid #EDE8E2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    margin-bottom: 6px;
+  }
+  .preview-b .p-text {
+    font-size: 0.45rem;
+    line-height: 1.5;
+    color: #7A6E64;
+    flex: 1;
+  }
+  .preview-b .p-badge {
+    font-size: 0.38rem;
+    font-weight: 600;
+    color: #2D9E6B;
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+  }
+
+  /* Mockup C preview — warm minimal */
+  .preview-c {
+    background: #FDFAF7;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 16px;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-c .p-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid #EDE8E2;
+    border-radius: 8px;
+    padding: 7px 10px;
+  }
+  .preview-c .p-avi {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #F4A57A, #E8472A);
+    flex-shrink: 0;
+  }
+  .preview-c .p-pname {
+    font-size: 0.46rem;
+    font-weight: 600;
+    color: #1C1410;
+  }
+  .preview-c .p-pdesc {
+    font-size: 0.38rem;
+    color: #B8ADA4;
+  }
+  .preview-c .p-bio {
+    background: white;
+    border: 1px solid #EDE8E2;
+    border-radius: 10px;
+    padding: 8px 10px;
+  }
+  .preview-c .p-bio.selected {
+    border-color: #D4472A;
+    box-shadow: 0 0 0 2px rgba(212,71,42,0.08);
+  }
+  .preview-c .p-num {
+    font-size: 0.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #B8ADA4;
+    margin-bottom: 4px;
+  }
+  .preview-c .p-btext {
+    font-size: 0.46rem;
+    line-height: 1.5;
+    color: #1C1410;
+  }
+  .preview-c .p-btext.dim { color: #D8D0C8; }
+  .preview-c .p-btns {
+    display: flex;
+    gap: 4px;
+  }
+  .preview-c .p-btn {
+    flex: 1;
+    background: white;
+    border: 1px solid #EDE8E2;
+    border-radius: 20px;
+    padding: 3px 0;
+    font-size: 0.38rem;
+    font-weight: 600;
+    color: #B8ADA4;
+    text-align: center;
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 18px 20px 20px;
+  }
+
+  .card-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-platform {
+    font-size: 0.68rem;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+
+  .card-arrow {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .card:hover .card-arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+  }
+  .footer a {
+    color: var(--text-3);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer a:hover { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="header">
+    <div class="header-eyebrow">AIPI 590 · Challenge 2 · RLHF Preference Collection</div>
+    <h1>Bio Judge<br><em>three design directions</em></h1>
+    <p class="subtitle">Human preference data collection for RLHF. Each mockup shows two AI-generated Hinge bios — pick the better one to build a training dataset.</p>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="mockup-a.html">
+      <div class="card-preview preview-a">
+        <div class="p-card-back">
+          <div class="p-tag">Bio 02</div>
+          <div class="p-text">Love traveling and trying new foods. Looking for someone kind to explore the city with.</div>
+        </div>
+        <div class="p-card">
+          <div class="p-tag">Bio 01</div>
+          <div class="p-text">I make pasta from scratch on Sundays because it's slower than my test suite.</div>
+          <div class="p-btns">
+            <div class="p-btn p-skip">✕</div>
+            <div class="p-btn p-pick">✓</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Mockup A · Mobile-first</div>
+        <div class="card-title">Swipe Cards</div>
+        <div class="card-desc">One bio at a time. Swipe or tap to prefer. Dating-app feel.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-platform">Mobile</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="mockup-b.html">
+      <div class="card-preview preview-b">
+        <div class="p-col won">
+          <div class="p-lbl">Bio A</div>
+          <div class="p-avi">👤</div>
+          <div class="p-text">I make pasta from scratch on Sundays because it's slower than my test suite.</div>
+          <div class="p-badge">Preferred ✓</div>
+        </div>
+        <div class="p-col lost">
+          <div class="p-lbl">Bio B</div>
+          <div class="p-avi">👤</div>
+          <div class="p-text">Love traveling and trying new foods. Looking for someone kind to explore with.</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Mockup B · Desktop</div>
+        <div class="card-title">Split Compare</div>
+        <div class="card-desc">Both bios side by side. Winner highlights, loser fades. Export JSONL.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-platform">Desktop</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="mockup-c.html">
+      <div class="card-preview preview-c">
+        <div class="p-pill">
+          <div class="p-avi"></div>
+          <div>
+            <div class="p-pname">Jordan M., 26</div>
+            <div class="p-pdesc">Software engineer · NYC</div>
+          </div>
+        </div>
+        <div class="p-bio selected">
+          <div class="p-num">Bio 1</div>
+          <div class="p-btext">I make pasta from scratch on Sundays because it's slower than my test suite.</div>
+        </div>
+        <div class="p-bio">
+          <div class="p-num">Bio 2</div>
+          <div class="p-btext dim">Love traveling and trying new foods. Looking for someone kind.</div>
+        </div>
+        <div class="p-btns">
+          <div class="p-btn">← Bio 1</div>
+          <div class="p-btn">Equal</div>
+          <div class="p-btn">Bio 2 →</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Mockup C · Minimal</div>
+        <div class="card-title">Minimal Judge</div>
+        <div class="card-desc">Clean reading interface. Keyboard shortcuts (1, 2, =). No distraction.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-platform">All screens</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="footer">
+    <span>AIPI 590 · Spring 2026</span>
+    <a href="https://github.com/jonasneves/aipi590-challenge-2">github →</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio Compare · Mockup B</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FBF7F4;
+    --surface: #FFFFFF;
+    --surface-2: #F5F0EC;
+    --border: #E8E0D8;
+    --border-2: #D4C8BE;
+    --text: #1A1410;
+    --text-2: #6B5E54;
+    --text-3: #B8A99E;
+    --accent: #E8472A;
+    --accent-light: rgba(232,71,42,0.08);
+    --green: #2D9E6B;
+    --green-light: rgba(45,158,107,0.08);
+    --rose: #D64B6A;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--text);
+  }
+
+  .back {
+    position: fixed; top: 20px; left: 24px; z-index: 100;
+    font-size: 0.78rem; color: var(--text-3); text-decoration: none;
+    transition: color 0.15s;
+  }
+  .back:hover { color: var(--text-2); }
+
+  /* ── Top bar ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(251,247,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .logo span { color: var(--accent); }
+
+  .topbar-right {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .count-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--text-2);
+    font-weight: 500;
+  }
+  .count-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+  }
+
+  .export-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .export-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Main ── */
+  .main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 88px 32px 64px;
+  }
+
+  /* ── Context card ── */
+  .context-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .ctx-avatar {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: linear-gradient(135deg, #F4A57A, #E8472A);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: white; flex-shrink: 0;
+  }
+
+  .ctx-info { flex: 1; }
+  .ctx-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .ctx-sub { font-size: 0.8rem; color: var(--text-2); }
+
+  .ctx-tags {
+    display: flex; gap: 6px;
+  }
+  .ctx-tag {
+    padding: 4px 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    color: var(--text-2);
+    font-weight: 500;
+  }
+
+  .pair-badge {
+    font-size: 0.72rem;
+    color: var(--text-3);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── Progress dots ── */
+  .progress-dots {
+    display: flex; gap: 6px;
+    margin-left: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .dot.done { background: var(--green); }
+  .dot.active { background: var(--accent); }
+
+  /* ── Bio grid ── */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .bio-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    transition: border-color 0.35s, box-shadow 0.35s, opacity 0.35s;
+    position: relative;
+    overflow: hidden;
+  }
+  .bio-card.winner {
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(45,158,107,0.08);
+  }
+  .bio-card.loser {
+    opacity: 0.38;
+  }
+  .bio-card.tie-card {
+    border-color: var(--text-3);
+  }
+
+  .bio-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .bio-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .winner-badge {
+    padding: 3px 10px;
+    background: var(--green-light);
+    border: 1px solid rgba(45,158,107,0.25);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--green);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .bio-card.winner .winner-badge { opacity: 1; }
+
+  .bio-profile-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .bio-avi {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .bio-pname {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .bio-page {
+    font-size: 0.75rem;
+    color: var(--text-2);
+    margin-top: 1px;
+  }
+
+  .bio-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .bio-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 14px;
+  }
+  .bio-chip {
+    padding: 4px 10px;
+    background: var(--surface-2);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Action row ── */
+  .action-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .pref-btn {
+    padding: 13px 28px;
+    border-radius: 50px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .pref-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .pref-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .pref-a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .pref-tie:hover { border-color: var(--border-2); color: var(--text); }
+  .pref-b:hover { border-color: var(--rose); color: var(--rose); background: rgba(214,75,106,0.06); }
+
+  .next-btn {
+    padding: 13px 28px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #E8472A, #D64B6A);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: none;
+    box-shadow: 0 4px 16px rgba(232,71,42,0.25);
+  }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,71,42,0.35); }
+  .next-btn.visible { display: block; }
+
+  /* ── History ── */
+  .history-section {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+  }
+  .history-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 12px;
+  }
+  .history-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+  .history-item:last-child { border-bottom: none; }
+  .h-badge {
+    padding: 2px 9px; border-radius: 20px;
+    font-size: 0.68rem; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .h-badge.A { background: var(--accent-light); color: var(--accent); }
+  .h-badge.B { background: rgba(214,75,106,0.08); color: var(--rose); }
+  .h-badge.TIE { background: var(--surface-2); color: var(--text-2); }
+  .h-person { color: var(--text); font-weight: 500; }
+  .h-time { color: var(--text-3); margin-left: auto; font-size: 0.72rem; }
+  .history-empty { font-size: 0.82rem; color: var(--text-3); padding: 12px 0; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← back</a>
+
+<div class="topbar">
+  <div class="logo">bio<span>.</span>judge</div>
+  <div class="topbar-right">
+    <div class="count-pill">
+      <div class="count-dot"></div>
+      <span id="countLabel">0 collected</span>
+    </div>
+    <button class="export-btn" onclick="exportData()">Export JSONL</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="context-card">
+    <div class="ctx-avatar" id="ctxAvatar">JM</div>
+    <div class="ctx-info">
+      <div class="ctx-name" id="ctxName">Jordan M., 26</div>
+      <div class="ctx-sub" id="ctxSub">Software engineer · NYC · hiking, cooking Italian, live music</div>
+    </div>
+    <div class="ctx-tags" id="ctxTags">
+      <span class="ctx-tag">tech</span>
+      <span class="ctx-tag">outdoors</span>
+      <span class="ctx-tag">music</span>
+    </div>
+    <div class="pair-badge" id="pairBadge">1 / 5</div>
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <div class="bio-grid">
+    <div class="bio-card" id="cardA">
+      <div class="bio-header">
+        <div class="bio-label">Bio A</div>
+        <div class="winner-badge">Preferred ✓</div>
+      </div>
+      <div class="bio-profile-row">
+        <div class="bio-avi">👤</div>
+        <div>
+          <div class="bio-pname" id="pnameA">Jordan</div>
+          <div class="bio-page" id="pageA">26 · Software Engineer</div>
+        </div>
+      </div>
+      <div class="bio-text" id="textA"></div>
+      <div class="bio-chips" id="tagsA"></div>
+    </div>
+    <div class="bio-card" id="cardB">
+      <div class="bio-header">
+        <div class="bio-label">Bio B</div>
+        <div class="winner-badge">Preferred ✓</div>
+      </div>
+      <div class="bio-profile-row">
+        <div class="bio-avi">👤</div>
+        <div>
+          <div class="bio-pname" id="pnameB">Jordan</div>
+          <div class="bio-page" id="pageB">26 · Software Engineer</div>
+        </div>
+      </div>
+      <div class="bio-text" id="textB"></div>
+      <div class="bio-chips" id="tagsB"></div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="pref-btn pref-a" id="btnA" onclick="choose('A')">← Prefer A</button>
+    <button class="pref-btn pref-tie" id="btnTie" onclick="choose('TIE')">It's a tie</button>
+    <button class="pref-btn pref-b" id="btnB" onclick="choose('B')">Prefer B →</button>
+    <button class="next-btn" id="btnNext" onclick="nextPair()">Next pair →</button>
+  </div>
+
+  <div class="history-section">
+    <div class="history-title">Collected Preferences</div>
+    <div id="historyList"><div class="history-empty">No preferences recorded yet.</div></div>
+  </div>
+</div>
+
+<script>
+const PAIRS = [
+  {
+    person: { name: 'Jordan M., 26', sub: 'Software engineer · NYC · hiking, cooking Italian, live music', tags: ['tech','outdoors','music'], avatar: 'JM', age: '26 · Software Engineer' },
+    a: { text: 'I love hiking and cooking Italian food. I work in tech and spend my weekends exploring the city. Big music fan always looking for concert buddies. Looking for someone genuine who wants to build something real.', tags: ['hiking','cooking','live music'] },
+    b: { text: 'I write code that works on my machine (usually). I make pasta from scratch on Sundays because it\'s the only thing slower than my test suite. If your idea of a perfect night involves arguing whether Die Hard is a Christmas movie — we\'re going to get along great.', tags: ['pasta nerd','film takes','bad debugger'] }
+  },
+  {
+    person: { name: 'Casey L., 24', sub: 'Kindergarten teacher · Brooklyn · reader, plant mom, yoga', tags: ['books','plants','yoga'], avatar: 'CL', age: '24 · Teacher' },
+    a: { text: 'I spend my days teaching 5-year-olds that sharing is caring, then immediately fail to share my fries. 47 plants, zero regrets. Currently on a Russian lit kick — which explains the vague existential expression.', tags: ['plant mom','Dostoevsky','yoga'] },
+    b: { text: 'Elementary teacher who loves reading and plants. I do yoga on weekends and love exploring coffee shops around Brooklyn. Looking for someone kind and adventurous to spend time with.', tags: ['reading','plants','coffee'] }
+  },
+  {
+    person: { name: 'Avery K., 28', sub: 'UX designer · Manhattan · travel, climbing, film photography', tags: ['design','travel','climbing'], avatar: 'AK', age: '28 · Designer' },
+    a: { text: 'I collect passport stamps and climbing calluses with equal enthusiasm. Shoot film because I like the commitment — you can\'t swipe left on a photo you\'ve already taken. Currently planning my 4th trip to Japan. Yes, I have a problem.', tags: ['film photography','climbing','japan'] },
+    b: { text: 'Love traveling and trying new foods. I design apps for work and enjoy rock climbing on weekends. Film photography is my creative outlet. Looking for someone to explore the city with.', tags: ['travel','climbing','design'] }
+  },
+  {
+    person: { name: 'Sam R., 30', sub: 'Chef · Lower East Side · sourdough, natural wine, farmer\'s markets', tags: ['food','wine','sustainability'], avatar: 'SR', age: '30 · Chef' },
+    a: { text: 'Professional chef who eats cereal for dinner at home. I spend 60 hours a week making food look beautiful and then can\'t be bothered. If you\'re a natural disaster in the kitchen too, we\'ll get along. My sourdough starter is named Gerald and he\'s doing great.', tags: ['sourdough','Gerald','cereal for dinner'] },
+    b: { text: 'I\'m a chef who loves trying new restaurants and cuisines. Passionate about food and sustainability. Looking for someone who appreciates good conversation and great meals.', tags: ['food','sustainability','restaurants'] }
+  },
+  {
+    person: { name: 'Morgan P., 27', sub: 'Journalist · Midtown · competitive Scrabble, annotated books', tags: ['writing','books','games'], avatar: 'MP', age: '27 · Journalist' },
+    a: { text: 'I write about things I barely understand, which is apparently journalism. Amateur competitive Scrabble player (yes, really). My book-to-read pile has achieved structural integrity at this point. Looking for someone who won\'t judge my annotated paperbacks.', tags: ['Scrabble','book hoarder','curious'] },
+    b: { text: 'Journalist passionate about storytelling. I love reading, board games, and good coffee. Looking for someone curious and kind who enjoys exploring the city and talking about ideas.', tags: ['reading','coffee','board games'] }
+  }
+];
+
+let current = 0;
+let chosen = null;
+let prefs = [];
+
+function buildDots() {
+  const el = document.getElementById('progressDots');
+  el.innerHTML = PAIRS.map((_, i) => {
+    const cls = i < current ? 'done' : i === current ? 'active' : '';
+    return `<div class="dot ${cls}"></div>`;
+  }).join('');
+}
+
+function loadPair(idx) {
+  if (idx >= PAIRS.length) return;
+  chosen = null;
+  const pair = PAIRS[idx];
+  const p = pair.person;
+
+  document.getElementById('pairBadge').textContent = `${idx+1} / ${PAIRS.length}`;
+  document.getElementById('ctxAvatar').textContent = p.avatar;
+  document.getElementById('ctxName').textContent = p.name;
+  document.getElementById('ctxSub').textContent = p.sub;
+  document.getElementById('ctxTags').innerHTML = p.tags.map(t=>`<span class="ctx-tag">${t}</span>`).join('');
+
+  const first = p.name.split(' ')[0];
+  ['pnameA','pnameB'].forEach(id => document.getElementById(id).textContent = first);
+  ['pageA','pageB'].forEach(id => document.getElementById(id).textContent = p.age);
+
+  document.getElementById('textA').textContent = pair.a.text;
+  document.getElementById('textB').textContent = pair.b.text;
+  document.getElementById('tagsA').innerHTML = pair.a.tags.map(t=>`<span class="bio-chip">${t}</span>`).join('');
+  document.getElementById('tagsB').innerHTML = pair.b.tags.map(t=>`<span class="bio-chip">${t}</span>`).join('');
+
+  ['cardA','cardB'].forEach(id => {
+    document.getElementById(id).classList.remove('winner','loser','tie-card');
+  });
+  ['btnA','btnTie','btnB'].forEach(id => {
+    const el = document.getElementById(id);
+    el.disabled = false;
+    el.style.display = '';
+  });
+  document.getElementById('btnNext').classList.remove('visible');
+  buildDots();
+}
+
+function choose(which) {
+  if (chosen !== null) return;
+  chosen = which;
+
+  const pair = PAIRS[current];
+  prefs.push({ person: pair.person.name, chosen: which, a: pair.a.text, b: pair.b.text, timestamp: new Date().toISOString() });
+
+  if (which === 'A') {
+    document.getElementById('cardA').classList.add('winner');
+    document.getElementById('cardB').classList.add('loser');
+  } else if (which === 'B') {
+    document.getElementById('cardB').classList.add('winner');
+    document.getElementById('cardA').classList.add('loser');
+  } else {
+    document.getElementById('cardA').classList.add('tie-card');
+    document.getElementById('cardB').classList.add('tie-card');
+  }
+
+  ['btnA','btnTie','btnB'].forEach(id => {
+    const el = document.getElementById(id);
+    el.disabled = true;
+    el.style.display = 'none';
+  });
+  document.getElementById('btnNext').classList.add('visible');
+  document.getElementById('countLabel').textContent = `${prefs.length} collected`;
+  addHistory(pair.person.name, which);
+}
+
+function nextPair() {
+  current = (current + 1) % PAIRS.length;
+  loadPair(current);
+}
+
+function addHistory(person, which) {
+  const list = document.getElementById('historyList');
+  if (list.querySelector('.history-empty')) list.innerHTML = '';
+  const item = document.createElement('div');
+  item.className = 'history-item';
+  const label = which === 'TIE' ? 'Tie' : `Bio ${which}`;
+  item.innerHTML = `<span class="h-badge ${which}">${label}</span><span class="h-person">${person}</span><span class="h-time">just now</span>`;
+  list.insertBefore(item, list.firstChild);
+}
+
+function exportData() {
+  if (!prefs.length) { alert('No preferences to export yet.'); return; }
+  const jsonl = prefs.map(p => JSON.stringify(p)).join('\n');
+  const blob = new Blob([jsonl], {type:'application/jsonl'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'preferences.jsonl';
+  a.click();
+}
+
+loadPair(0);
+</script>
+</body>
+</html>
