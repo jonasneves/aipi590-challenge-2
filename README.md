@@ -45,7 +45,7 @@ Results (charts and metrics JSON) are published back to this repo automatically 
 
 ## Data
 
-240 preference triples collected by Yifei Guo via [swiperight-alpha.vercel.app](https://swiperight-alpha.vercel.app), included at `data/preferences.json`.
+243 human preference triples collected via [swiperight-alpha.vercel.app](https://swiperight-alpha.vercel.app), included at `data/preferences.json`.
 
 Format:
 ```json
