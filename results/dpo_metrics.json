@@ -1,6 +1,6 @@
 {
-  "final_loss": 0.7019982814788819,
+  "final_loss": 0.6891627788543702,
   "steps": 33,
-  "final_reward_chosen": -0.01286417581140995,
-  "final_reward_rejected": 0.0040255490690469745
+  "final_reward_chosen": -0.003875312814489007,
+  "final_reward_rejected": -0.01287412066012621
 }
